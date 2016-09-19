@@ -1,0 +1,14 @@
+.main-page {
+  min-height: 300px;
+  min-width: 400px;
+}
+
+.app-container {
+  height: 100%;
+  width: 100%;
+}
+
+.app-container > plexporter-view {
+  height: 100%;
+  width: 100%;
+}

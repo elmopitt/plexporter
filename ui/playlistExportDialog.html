@@ -1,0 +1,19 @@
+<md-dialog aria-label="Export Playlist Dialog">
+  <md-dialog-content>
+    <div class="md-dialog-content">
+      <h2>Export Playlist</h2>
+      <md-checkbox ng-model="$ctrl.copyFiles">
+        Copy Files
+      </md-checkbox>
+      <md-checkbox ng-model="$ctrl.createM3u"
+                   ng-disabled="!$ctrl.copyFiles">
+        Create M3U
+      </md-checkbox>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <md-button class="md-primary md-raised"
+               ng-click="$ctrl.close()">Export</md-button>
+    <md-button class="md-raised"
+               ng-click="$ctrl.close()">Cancel</md-button>
+  </md-dialog-actions>
+</md-dialog>

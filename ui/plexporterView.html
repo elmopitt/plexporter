@@ -1,0 +1,26 @@
+<md-tabs class="plexporter-view-tabs"
+         md-selected="$ctrl.selectedTab">
+  <md-tab label="Playlists"
+          md-on-select="$ctrl.fetchPlaylists()">
+    <md-list ng-if="$ctrl.playlists.length">
+      <md-list-item class="plexporter-view-list-item"
+                    ng-repeat="playlist in $ctrl.playlists"
+                    ng-click="$ctrl.exportFiles(playlist)">
+        <img ng-src="{{playlist.getThumbnailUrl()}}"
+             ng-if="playlist.getThumbnailUrl()">
+        <span class="plexporter-view-list-item-label">
+          {{playlist.getSpecification().title}}
+        </span>
+      </md-list-item>
+    </md-list>
+  </md-tab>
+  <md-tab label="Settings">
+    <md-input-container>
+      <label>Plex Server Address</label>
+      <input type="text" ng-model="$ctrl.applicationSettings.plexServerAddress">
+    </md-input-container>
+    <md-button ng-click="$ctrl.saveApplicationSettings()">
+      Save
+    </md-button>
+  </md-tab>
+</md-tabs>

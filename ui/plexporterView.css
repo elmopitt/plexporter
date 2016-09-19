@@ -1,0 +1,16 @@
+plexporter-view {
+  display: block;
+}
+
+.plexporter-view-tabs {
+  height: 100%;
+  width: 100%;
+}
+
+.plexporter-view-list-item {
+  margin: 4px;
+}
+
+.plexporter-view-list-item-label {
+  margin: 4px;
+}

@@ -1,0 +1,21 @@
+{
+  "author": "elmopitt",
+  "name": "plexporter",
+  "version": "0.1",
+  "description": "Exporter for Plex playlists",
+  "license": "MIT",
+  "main": "electron-application.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "elmopitt/plexporter"
+  },
+  "dependencies": {
+    "angular": "*",
+    "angular-animate": "*",
+    "angular-aria": "*",
+    "angular-material": "*"
+  }
+}
