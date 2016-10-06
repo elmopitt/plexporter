@@ -158,6 +158,7 @@ class MainEventListener {
             const targetDirectory = selectedDirectory + '/' + album.title;
             const tracks = Array.from(album.tracks).reverse();
             tracks.forEach((track, index) => {
+              const percentage = 100 * percentageIndex / totalTrackCount;
               const copyOperation = new TrackCopyOperation(
                   track,
                   targetDirectory,
@@ -172,7 +173,7 @@ class MainEventListener {
                   (progressPercentage) => {
                     event.sender.send(
                         ResponseChannel.PROGRESS_UPDATE,
-                        100 * percentageIndex / totalTrackCount);
+                        percentage);
                   },
                   nextOperation);
               trackCopyOperations.push(copyOperation);
