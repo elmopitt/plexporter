@@ -185,69 +185,6 @@ class MainEventListener {
   }
 
   /**
-   * Copies the files for the given tracks to the given directory.
-   * Throws an error if any file could not be copied.
-   * @param {!Array<!TrackSpecification>} tracks
-   * @param {string} targetDirectory
-   * @param {?Array<string>} localPaths
-   * @private
-   */
-  copyTracks_(tracks, targetDirectory, localPaths) {
-    let sourceFile = null;
-    let targetFile = null;
-    let cachedError = null;
-    const buffer = Buffer.alloc(4096);
-    try {
-      const trackFilePaths = tracks.map((track) => {
-        return track.filePath;
-      });
-      const adjustedPaths = this.resolveLocalPaths_(trackFilePaths, localPaths);
-      let targetDirectoryStats = null;
-      try {
-        targetDirectoryStats = fs.statSync(targetDirectory);
-      } catch (error) {
-        targetDirectoryStats = null;
-      }
-      if (!targetDirectoryStats) {
-        fs.mkdirSync(targetDirectory);
-      } else if (!targetDirectoryStats.isDirectory()) {
-        throw Error('Target directory already exists, but is not a directory:' +
-            targetDirectory);
-      }
-      tracks.forEach((track, index) => {
-        const fileNameSegments = track.filePath.split('/');
-        // TODO: Determine whether leading zeros should be included.
-        // TODO: Strip the original track number, if present.
-        const targetFileName = (index + 1) + ' ' +
-            fileNameSegments[fileNameSegments.length - 1];
-        sourceFile = fs.openSync(adjustedPaths.get(track.filePath), 'r');
-        targetFile = fs.openSync(targetDirectory + '/' + targetFileName, 'w+');
-       let bytesRead = 0;
-        while (bytesRead = fs.readSync(sourceFile, buffer, 0, 4096, null)) {
-          fs.writeSync(targetFile, buffer, 0, bytesRead);
-        }
-        fs.closeSync(sourceFile);
-        sourceFile = null;
-        fs.closeSync(targetFile);
-        targetFile = null;
-      });
-    } catch (error) {
-      console.error('Error copying track:');
-      console.error(error);
-      cachedError = error;
-    }
-    if (sourceFile) {
-      fs.close(sourceFile, () => {});
-      sourceFile = null;
-    }
-    if (targetFile) {
-      fs.close(targetFile, () => {});
-      targetFile = null;
-    }
-    throw error;
-  }
-
-  /**
    * @return {boolean}
    */
   validateUserDataDirectory() {
@@ -261,51 +198,6 @@ class MainEventListener {
       fs.mkdirSync(this.userDataPath);
     }
     return true;
-  }
-
-  /**
-   * @param {!Array<string>}
-   * @param {!Array<string>}
-   * @return {!Map<string, string>}
-   */
-  resolveLocalPaths_(filePaths, localPaths) {
-    const adjustedPaths = new Map();
-    for (let filePath of filePaths) {
-      let fileStats = null;
-      let adjustedPath = filePath;
-      try {
-        fileStats = fs.statSync(adjustedPath);
-      } catch (err) {
-        // Local file didn't exist; ignore and try local paths.
-        fileStats = null;
-      }
-      if (!fileStats) {
-        const pathElements = filePath.split('/');
-        let pathSegment = pathElements.pop();
-        while (!fileStats && pathElements.length) {
-          pathSegment = '/' + pathSegment;
-          for (const localPath of localPaths) {
-            try {
-              adjustedPath = localPath + pathSegment;
-              fileStats = fs.statSync(adjustedPath);
-              if (fileStats) {
-                break;
-              }
-            } catch(err) {
-              // Adjusted path didn't exist; ignore and keep trying.
-              fileStats = null;
-            }
-          }
-          pathSegment = pathElements.pop() + pathSegment;
-        }
-      }
-      if (fileStats && fileStats.isFile()) {
-        adjustedPaths.set(filePath, adjustedPath);
-      } else {
-        throw Error('Unable to find a local path for: ' + filePath);
-      }
-    }
-    return adjustedPaths;
   }
 }
 
