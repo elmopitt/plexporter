@@ -5,6 +5,12 @@
  */
 const ResponseChannel = {
   /**
+   * Provides the percentage completed for the current request.
+   * Arguments: number
+   */
+  PROGRESS_UPDATE: 'PROGRESS_UPDATE',
+
+  /**
    * Provides application settings.
    * Arguments: ApplicationSettingsSpecification
    */
@@ -21,6 +27,24 @@ const ResponseChannel = {
    * Arguments:
    */
   SELECT_PLEXPORTER_FILE: 'SELECT_PLEXPORTER_FILE_RESPONSE',
+
+  /**
+   * Provides a user-selected existing folder/directory.
+   * Arguments: string
+   */
+  SELECT_EXISTING_DIRECTORY: 'SELECT_EXISTING_DIRECTORY_RESPONSE',
+
+  /**
+   * Provides an error if a COPY_TRACKS operation failed, or null otherwise.
+   * Arguments: ?Error
+   */
+  COPY_TRACKS: 'COPY_TRACKS',
+
+  /**
+   * Provides an error if a COPY_ALBUMS operation failed, or null otherwise.
+   * Arguments: ?Error
+   */
+  COPY_ALBUMS: 'COPY_ALBUMS',
 };
 
 module.exports = ResponseChannel;

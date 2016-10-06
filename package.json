@@ -1,7 +1,7 @@
 {
   "author": "elmopitt",
   "name": "plexporter",
-  "version": "0.1",
+  "version": "1.0.0",
   "description": "Exporter for Plex playlists",
   "license": "MIT",
   "main": "electron-application.js",
@@ -16,6 +16,7 @@
     "angular": "*",
     "angular-animate": "*",
     "angular-aria": "*",
-    "angular-material": "*"
+    "angular-material": "*",
+    "electron": "*"
   }
 }

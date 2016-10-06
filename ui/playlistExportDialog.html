@@ -2,18 +2,29 @@
   <md-dialog-content>
     <div class="md-dialog-content">
       <h2>Export Playlist</h2>
-      <md-checkbox ng-model="$ctrl.copyFiles">
+      <!-- <md-checkbox ng-model="$ctrl.settings.copyFiles">
         Copy Files
       </md-checkbox>
-      <md-checkbox ng-model="$ctrl.createM3u"
-                   ng-disabled="!$ctrl.copyFiles">
+      <md-checkbox ng-model="$ctrl.settings.createM3u">
         Create M3U
+      </md-checkbox> -->
+      <md-checkbox ng-model="$ctrl.settings.includeAlbum">
+        Include Full Albums
       </md-checkbox>
+      <div style="font-style: italic;">
+        <div ng-if="$ctrl.settings.includeAlbum">
+          A subfolder will be created for each album.
+        </div>
+        <div ng-if="!$ctrl.settings.includeAlbum">
+          A subfolder will be created for the playlist.
+        </div>
+      </div>
+    </div>
   </md-dialog-content>
   <md-dialog-actions>
     <md-button class="md-primary md-raised"
-               ng-click="$ctrl.close()">Export</md-button>
+               ng-click="$ctrl.commit()">Export</md-button>
     <md-button class="md-raised"
-               ng-click="$ctrl.close()">Cancel</md-button>
+               ng-click="$ctrl.cancel()">Cancel</md-button>
   </md-dialog-actions>
 </md-dialog>

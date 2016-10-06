@@ -1,21 +1,38 @@
+const ExportSettings = require('../specification/exportSettings.js');
+
 class PlaylistExportDialog {
   constructor($scope, $mdDialog) {
     this.mdDialog_ = $mdDialog;
 
-    this.copyFiles = false;
-    this.createM3u = false;
+    /**
+     * @type {?ExportSettings}
+     */
+    this.initialSettings;
+
+    /**
+     * @type {!ExportSettings}
+     */
+    this.settings = this.initialSettings ?
+        angular.copy(this.initialSettings) : new ExportSettings();
   }
 
-  close() {
-    this.mdDialog_.hide();
+  commit() {
+    this.mdDialog_.hide(this.settings);
   }
 
-  static generateOptions() {
+  cancel() {
+    this.mdDialog_.cancel();
+  }
+
+  static generateOptions(settings) {
     return {
       templateUrl: 'ui/playlistExportDialog.html',
       controller: PlaylistExportDialog,
       controllerAs: '$ctrl',
       bindToController: true,
+      locals: {
+        initialSettings: settings,
+      },
     };
   }
 }

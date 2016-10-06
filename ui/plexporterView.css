@@ -2,9 +2,15 @@ plexporter-view {
   display: block;
 }
 
-.plexporter-view-tabs {
+.plexporter-view {
+  display: flex;
+  flex-direction: column;
   height: 100%;
   width: 100%;
+}
+
+.plexporter-view-tabs {
+  flex: 1;
 }
 
 .plexporter-view-list-item {

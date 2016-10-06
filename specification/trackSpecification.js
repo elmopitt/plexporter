@@ -1,16 +1,22 @@
 /**
- * Specification for a Plex Track. It's primarily used as a persistable
- * intermediate class for construction a complete Track instance.
+ * Specification for a Plex Track.
  */
 class TrackSpecification {
   /**
    * @param {?Object} json A JSON object containing the necessary fields for
-   *    constructing a playlist specification.
+   *    constructing a track specification.
    * @param {?Element} element The track element that this specification
    *    represents.
    * @param {?Element} element The media element corresponding to this track.
    */
   constructor(json = null, trackElement = null, mediaElement = null) {
+    if (trackElement && !mediaElement) {
+      const mediaCollection = trackElement.getElementsByTagName('media');
+      if (mediaCollection && mediaCollection.length == 1) {
+        console.log('Found inner media element for track.');
+        mediaElement = mediaCollection.item(0);
+      }
+    }
     /**
      * @type {string}
      */
@@ -24,6 +30,13 @@ class TrackSpecification {
     this.key = (trackElement ?
         trackElement.attributes.getNamedItem('key').value :
         json.key) || '';
+
+    /**
+     * @type {string}
+     */
+    this.albumKey = (trackElement ?
+        trackElement.attributes.getNamedItem('parentKey').value :
+        json.albumKey) || '';
 
     /**
      * @type {number}
