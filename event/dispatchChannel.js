@@ -32,7 +32,8 @@ const DispatchChannel = {
    * A list of local media paths may also be specified; if a file path cannot be
    * accessed directly, then an attempt will be made to locate the file in one
    * the local media paths.
-   * Arguments: !PlaylistSpecification, string, ?Array<string>
+   * Arguments: !ApplicationSettings, !ExportSettings, !PlaylistSpecification,
+                string, ?Array<string>
    */
   COPY_TRACKS: 'COPY_TRACKS',
 
@@ -41,7 +42,8 @@ const DispatchChannel = {
    * A list of local media paths may also be specified; if a file path cannot be
    * accessed directly, then an attempt will be made to locate the file in one
    * the local media paths.
-   * Arguments: !Array<!AlbumSpecification>, string, ?Array<string>
+   * Arguments: !ApplicationSettings, !ExportSettings,
+                !Array<!AlbumSpecification>, string, ?Array<string>
    */
   COPY_ALBUMS: 'COPY_ALBUMS',
 };

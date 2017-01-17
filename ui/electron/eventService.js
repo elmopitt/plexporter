@@ -1,4 +1,6 @@
+const ApplicationSettings = require('../../specification/applicationSettings.js');
 const DispatchChannel = require('../../event/dispatchChannel.js');
+const ExportSettings = require('../../specification/exportSettings.js');
 const ResponseChannel = require('../../event/responseChannel.js');
 const ipcRenderer = require('electron').ipcRenderer;
 
@@ -94,12 +96,15 @@ class ElectronEventService {
   }
 
   /**
+   * @param {!ApplicationSettings} applicationSettings
+   * @param {!ExportSettings} exportSettings
    * @param {!PlaylistSpecification} playlistSpecification
    * @param {string} targetDirectory
    * @param {!Array<string>} localPaths
    * @return {!angular.Promise}
    */
-  copyTracks(playlistSpecification, targetDirectory, localPaths) {
+  copyTracks(applicationSettings, exportSettings, playlistSpecification,
+      targetDirectory, localPaths) {
     const deferred = this.q_.defer();
     this.setResponseHandler_(
         ResponseChannel.COPY_TRACKS,
@@ -111,17 +116,24 @@ class ElectronEventService {
           }
         });
     ipcRenderer.send(DispatchChannel.COPY_TRACKS,
-        playlistSpecification, targetDirectory, localPaths);
+        applicationSettings,
+        exportSettings,
+        playlistSpecification,
+        targetDirectory,
+        localPaths);
     return deferred.promise;
   }
 
   /**
+   * @param {!ApplicationSettings} applicationSettings
+   * @param {!ExportSettings} exportSettings
    * @param {!Array<!AlbumSpecification>} albums
    * @param {string} targetDirectory
    * @param {!Array<string>} localPaths
    * @return {!angular.Promise}
    */
-  copyAlbums(albums, targetDirectory, localPaths) {
+  copyAlbums(applicationSettings, exportSettings, albums, targetDirectory,
+      localPaths) {
     const deferred = this.q_.defer();
     this.setResponseHandler_(
         ResponseChannel.COPY_ALBUMS,
@@ -133,7 +145,11 @@ class ElectronEventService {
           }
         });
     ipcRenderer.send(DispatchChannel.COPY_ALBUMS,
-        albums, targetDirectory, localPaths);
+        applicationSettings,
+        exportSettings,
+        albums,
+        targetDirectory,
+        localPaths);
     return deferred.promise;
   }
 

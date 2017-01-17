@@ -48,6 +48,14 @@ class TrackSpecification {
     /**
      * @type {string}
      */
+    this.thumb = (trackElement ?
+        (trackElement.attributes.getNamedItem('thumb') &&
+            trackElement.attributes.getNamedItem('thumb').value) :
+        json.durationMillis) || '';
+
+    /**
+     * @type {string}
+     */
     this.filePath = mediaElement ?
         generateFilePath(mediaElement) : json.filePath;
   }

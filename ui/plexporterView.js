@@ -50,7 +50,7 @@ class PlexporterView {
      */
     this.thumbnailParams_ =
         '?width=100&height=100&rows=2&cols=2&border=0&media=thumb&repeat=1';
-
+// http://192.168.2.2:32400/photo/:/transcode?url=http%3A%2F%2F127.0.0.1%3A32400%2Flibrary%2fmetadata%2f19764%2fthumb%2f1440156716&width=100&height=100
     /**
      * @private {!Object}
      */
@@ -68,6 +68,11 @@ class PlexporterView {
      */
     this.currentOperationPercentage = null;
 
+    /**
+     * @package {!Object}
+     */
+    this.process = process;
+
     this.electronEventService_.loadApplicationSettings().then(
         (applicationSettings) => {
           this.applicationSettings = applicationSettings;
@@ -84,7 +89,8 @@ class PlexporterView {
       return;
     }
     this.http_.get(
-        this.applicationSettings.plexServerAddress + '/playlists/all')
+        this.applicationSettings.plexServerAddress + '/playlists/all' +
+        '?X-Plex-Token=' + this.applicationSettings.plexToken)
     .then((response) => {
       const playlistElements = Array.from(
           angular.element(response.data).children('playlist'));
@@ -103,7 +109,8 @@ class PlexporterView {
           console.error(thumbnailError);
         });
         this.http_.get(this.applicationSettings.plexServerAddress +
-            playlist.getSpecification().key)
+            playlist.getSpecification().key +
+            '?X-Plex-Token=' + this.applicationSettings.plexToken)
         .then((itemsResponse) => {
           const itemElements = Array.from(
               angular.element(itemsResponse.data).children());
@@ -120,7 +127,8 @@ class PlexporterView {
   generateThumbnailUrl(playlist) {
     return this.applicationSettings.plexServerAddress +
         playlist.getSpecification().composite +
-        this.thumbnailParams_;
+        this.thumbnailParams_ +
+        '&X-Plex-Token=' + this.applicationSettings.plexToken;
   }
 
   exportFiles(playlist) {
@@ -132,6 +140,8 @@ class PlexporterView {
           if (exportSettings.copyFiles) {
             this.electronEventService_.selectExistingDirectory()
                 .then((directory) => {
+                  const targetDirectory =
+                      directory + '/' + playlist.getSpecification().title;
                   if (exportSettings.includeAlbum) {
                     const albumKeySet = new Set();
                     for (const track of playlist.getSpecification().tracks) {
@@ -145,7 +155,8 @@ class PlexporterView {
                     const albumPromises = [...albumKeySet].map((albumKey) => {
                       return this.http_.get(
                           this.applicationSettings.plexServerAddress +
-                              albumKey + '/children')
+                              albumKey + '/children?X-Plex-Token=' +
+                              this.applicationSettings.plexToken)
                           .then(
                             (response) => {
                               const albumResponse =
@@ -168,8 +179,10 @@ class PlexporterView {
                         this.currentOperationName = 'Copying albums';
                         this.currentOperationPercentage = null;
                         this.electronEventService_.copyAlbums(
+                            this.applicationSettings,
+                            exportSettings,
                             albums,
-                            directory,
+                            targetDirectory,
                             this.applicationSettings.localMediaPaths).then(
                               () => {
                                 console.log('copyAlbums was successful.');
@@ -193,8 +206,10 @@ class PlexporterView {
                     this.currentOperationName = 'Copying tracks';
                     this.currentOperationPercentage = null;
                     this.electronEventService_.copyTracks(
+                        this.applicationSettings,
+                        exportSettings,
                         playlist.getSpecification(),
-                        directory,
+                        targetDirectory,
                         this.applicationSettings.localMediaPaths).then(
                           () => {
                             this.currentOperationName = null;

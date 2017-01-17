@@ -20,6 +20,12 @@ class ExportSettingsSpecification {
      * @type {boolean}
      */
     this.includeAlbum = false;
+
+    /**
+     * Whether each track's album artwork should be re-written.
+     * @type {boolean}
+     */
+    this.rewriteAlbumArtwork = false;
   }
 }
 

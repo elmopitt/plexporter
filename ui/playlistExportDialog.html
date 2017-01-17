@@ -8,15 +8,25 @@
       <md-checkbox ng-model="$ctrl.settings.createM3u">
         Create M3U
       </md-checkbox> -->
-      <md-checkbox ng-model="$ctrl.settings.includeAlbum">
-        Include Full Albums
-      </md-checkbox>
-      <div style="font-style: italic;">
-        <div ng-if="$ctrl.settings.includeAlbum">
-          A subfolder will be created for each album.
+      <div>
+        <md-checkbox ng-model="$ctrl.settings.includeAlbum">
+          Include Full Albums
+        </md-checkbox>
+        <div style="font-style: italic;">
+          <div ng-if="$ctrl.settings.includeAlbum">
+            A subfolder will be created for each album.
+          </div>
+          <div ng-if="!$ctrl.settings.includeAlbum">
+            A subfolder will be created for the playlist.
+          </div>
         </div>
-        <div ng-if="!$ctrl.settings.includeAlbum">
-          A subfolder will be created for the playlist.
+      </div>
+      <div>
+        <md-checkbox ng-model="$ctrl.settings.rewriteAlbumArtwork">
+          Re-write album artwork
+        </md-checkbox>
+        <div style="font-style: italic;">
+          Album artwork will be re-written 
         </div>
       </div>
     </div>

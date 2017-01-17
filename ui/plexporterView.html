@@ -30,6 +30,10 @@
         <label>Plex Server Address</label>
         <input type="text" ng-model="$ctrl.applicationSettings.plexServerAddress">
       </md-input-container>
+      <md-input-container>
+        <label>Plex Token</label>
+        <input type="text" ng-model="$ctrl.applicationSettings.plexToken">
+      </md-input-container>
       <md-list>
         <md-list-item
             ng-repeat="localPath in $ctrl.applicationSettings.localMediaPaths">
@@ -44,6 +48,10 @@
           Clear Local Paths
         </md-button>
       </div>
+      <div>
+        Node version: {{$ctrl.process.version}}
+        <br>Electron version: {{$ctrl.process.versions.electron}}
+        <br>Chrome version: {{$ctrl.process.versions.chrome}}
       <div>
         <md-button ng-click="$ctrl.saveApplicationSettings()">
           Save

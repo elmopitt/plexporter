@@ -10,6 +10,12 @@ class ApplicationSettingsSpecification {
     this.plexServerAddress = '';
 
     /**
+     * Token
+     * @type {string}
+     */
+    this.plexToken = '';
+
+    /**
      * @type {!Array<string>}
      */
     this.localMediaPaths = [];
